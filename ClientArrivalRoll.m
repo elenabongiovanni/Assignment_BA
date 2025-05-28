@@ -1,0 +1,4 @@
+classdef ClientArrivalRoll < Event
+
+
+end

@@ -4,7 +4,8 @@ classdef WaitingTime < StateVar
             obj@StateVar(); % Chiama il costruttore della superclasse
         end
 
-        function Update(obj)
+        function Update(obj, clock, joinTime)
+            obj.Values = clock - joinTime;
             if ~isempty(obj.Values)
                 obj.CurrentState = obj.CurrentState + obj.Values(end);
             end

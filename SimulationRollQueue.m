@@ -2,12 +2,14 @@ classdef SimulationRollQueue < handle
 
     properties 
     MyQueue
-    clock
-    toServe
-    arrivals
-    rolls
-    residualDemand
-    joinTime
+    Buffer
+    Clock
+    ToServe
+    Arrival
+    Roll
+    ResidualDemand
+    JoinTime
+    WaitingTime
     % rate_arrival
     % distribution_arrival
     % rate_service
@@ -17,49 +19,50 @@ classdef SimulationRollQueue < handle
 methods
     function obj = SimulationRollQueue(Queue,ToServe,Rate1,Rate2)
             obj.MyQueue = Queue;
-            obj.clock = 0;
-            obj.toServe = ToServe;
-            obj.arrivals = Events(Rate1, @(x)  poissrnd(x));
-            obj.rolls = Events(Rate2, @(x) exprnd(x));
-            obj.residualDemand = [];
-            obj.joinTime = [];
+            obj.Buffer = Queue;
+            obj.Clock = 0;
+            obj.ToServe = ToServe;
+            obj.Arrival = Events(Rate1, @(x)  poissrnd(x));
+            obj.Roll = Events(Rate2, @(x) exprnd(x));
+            obj.ResidualDemand = [];
+            obj.JoinTime = [];
    
     end
     
-    function ManageToServe(obj)
-        
-    end
+    % function ManageToServe(obj)
+    % 
+    % end
 
     function [totalWaitingTime] = EvaluatePolicy(obj)
-         while obj.MyQueue.Served <= obj.toServe
-            if obj.rolls.Next <= obj.arrivals.Next  % manage roll completion event
-                obj.clock = obj.rolls.Next;
-                if ~ isempty(obj.residualDemand)  % customer in queue, serve demand
-                    obj.residualDemand(1) = obj.residualDemand(1)-1;
-                    if obj.residualDemand(1) == 0 % service completed
-                        totalWaitingTime = totalWaitingTime + (obj.clock - obj.joinTime(1)); % 
+         while obj.MyQueue.Served <= obj.ToServe
+            if obj.Rolls.Next <= obj.Arrival.Next  % manage roll completion event
+                obj.Clock = obj.Rolls.Next;
+                if ~ isempty(obj.ResidualDemand)  % customer in queue, serve demand
+                    obj.ResidualDemand(1) = obj.ResidualDemand(1)-1;
+                    if obj.ResidualDemand(1) == 0 % service completed
+                        totalWaitingTime = totalWaitingTime + (obj.clock - obj.JoinTime(1)); % 
                         obj.MyQueue.AddServed(); % ho servito un altro cliente 
                     
                         % dequeue
-                        obj.joinTime(1) = [];
-                        obj.residualDemand(1) = [];
+                        obj.JoinTime(1) = [];
+                        obj.ResidualDemand(1) = [];
                     end
                 else % no customer, increase buffer count
                     buffer = buffer+1;
                 end
                 if buffer == maxPlaces
                     blocked = true;
-                    obj.rolls.Next = inf;
+                    obj.Rolls.Next = inf;
                 else
-                    obj.rolls.GenerateNext();
+                    obj.Rolls.GenerateNext();
                 end
             else % manage customer arrival event
-                obj.clock = obj.arrivals.Next ;
-                obj.arrivals.GenerateNext();
+                obj.Clock = obj.Arrival.Next ;
+                obj.Arrival.GenerateNext();
                 demand = unidrnd(maxDemand);
-                if ~ isempty(obj.residualDemand) % join queue
-                    obj.residualDemand(end+1) = demand;
-                    obj.joinTime(end+1) = obj.clock;
+                if ~ isempty(obj.ResidualDemand) % join queue
+                    obj.ResidualDemand(end+1) = demand;
+                    obj.JoinTime(end+1) = obj.Clock;
                 else % no one in queue, grab some roll
                     if buffer >= demand
                         buffer = buffer - demand;
@@ -67,8 +70,8 @@ methods
                     else % wait for more rolls
                         demand = demand - buffer;
                         buffer = 0;
-                        obj.residualDemand(1) = demand;
-                        obj.joinTime(1) = obj.clock;
+                        obj.ResidualDemand(1) = demand;
+                        obj.JoinTime(1) = obj.Clock;
                     end
                     if blocked % unblock roll preparation
                         blocked = false;

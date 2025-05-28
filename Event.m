@@ -1,4 +1,4 @@
-classdef Events < handle
+classdef Event < handle
 
     properties
         rate
@@ -20,6 +20,13 @@ classdef Events < handle
 
         end
 
+    end
+
+    methods (Abstract)
+
+        %funzione astratta Manage
+        Manage()
+     
     end
 
 end
