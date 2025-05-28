@@ -8,7 +8,7 @@ classdef Event < handle
 
     methods
         % Costruttore 
-        function obj = Events(Rate,Distribution)
+        function obj = Event(Rate,Distribution)
             obj.rate = Rate;
             obj.Next = Distribution(Rate);
             obj.distribution = Distribution;
