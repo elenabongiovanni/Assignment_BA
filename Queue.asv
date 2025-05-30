@@ -12,6 +12,7 @@ classdef Queue < handle
     methods
         % Costruttore
         function obj = Queue(nummax)
+
             obj.ClientsList = [];
             obj.NumInQueue = [];
             obj.Lost = 0;

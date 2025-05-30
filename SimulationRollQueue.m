@@ -1,21 +1,21 @@
 classdef SimulationRollQueue < handle 
 
     properties 
-    MyQueue
-    Buffer
-    Clock
-    ToServe
-    Arrival
-    Roll
-    ResidualDemand
-    JoinTime
-    WaitingTime
-    MaxDemand = 3
-    Count = 0
-    % rate_arrival
-    % distribution_arrival
-    % rate_service
-    % distribution_service
+        MyQueue
+        Buffer
+        Clock
+        ToServe
+        Arrival
+        Roll
+        ResidualDemand
+        JoinTime
+        WaitingTime
+        MaxDemand = 3
+        Count = 0
+        % rate_arrival
+        % distribution_arrival
+        % rate_service
+        % distribution_service
     end
 
 methods

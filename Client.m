@@ -1,12 +1,14 @@
 classdef Client < handle
 
     properties
+        Id
         EnterTime
         ExitTime = inf
     end
 
     methods
-        function obj = Client(EnterTime)
+        function obj = Client(Id, EnterTime)
+            obj.Id = Id;
             obj.EnterTime = EnterTime;
         end
     end
