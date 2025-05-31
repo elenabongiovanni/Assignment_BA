@@ -40,19 +40,18 @@ classdef Queue < handle
         end
 
         function served = AddServed(obj, id)
-            if nargin > 1
-                idx = find(cellfun(@(c) c.Id == id, obj.ClientsList));
-                served = obj.ClientsList{idx};
-                obj.ClientsList(idx) = [];
-            else
-                served = obj.ClientsList{1};
-                obj.ClientsList(1) = [];
-            end
-            
             if obj.NumInQueue > 0
+                if nargin > 1
+                    idx = find(cellfun(@(c) c.Id == id, obj.ClientsList));
+                    served = obj.ClientsList{idx};
+                    obj.ClientsList(idx) = [];
+                else                    
+                        served = obj.ClientsList{1};
+                        obj.ClientsList(1) = [];                      
+                end
                 obj.NumInQueue = obj.NumInQueue - 1;
             end
-            
+                        
             obj.Served = obj.Served + 1;
 
             disp(obj.Served)

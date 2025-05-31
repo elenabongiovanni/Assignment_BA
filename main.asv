@@ -1,7 +1,0 @@
-clc
-clear
-close all
-
-
-Simulation = SimulationPetrolStation(100,10,15,7, 10, 2, 2);
-Simulation.Simulazione()

@@ -25,7 +25,7 @@ classdef Event < handle
         function GenerateNext(obj)
             if obj.Next == inf
                 obj.RemoveTime();
-                obj.Next = obj.Distribution(obj.Rate);
+                obj.Next = obj.TimesList(end-1) + obj.Distribution(obj.Rate);
             else
                 obj.Next = obj.Next + obj.Distribution(obj.Rate);
             end

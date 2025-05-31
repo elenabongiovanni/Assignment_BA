@@ -10,7 +10,7 @@ classdef ServiceRoll < Event
                 Sim.ResidualDemand(1) = Sim.ResidualDemand(1)-1;
                 if Sim.ResidualDemand(1) == 0 % service completed
                     %Sim.WaitingTime.Update(obj.Next, Sim.JoinTime(1))
-                    Sim.MyQueue.AddServed(roll.Id); % ho servito un altro cliente 
+                    Sim.MyQueue.AddServed(); % ho servito un altro cliente 
                     Sim.Count = Sim.Count + 1;
                 
                     % dequeue

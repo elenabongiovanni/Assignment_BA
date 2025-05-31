@@ -36,7 +36,7 @@ methods
    
 
     function Simulazione(obj)
-        while obj.MyQueue.Served <= obj.ToServe
+        while obj.MyQueue.Served < obj.ToServe
             disp(obj.MyQueue.Served);
             disp(obj.Roll.Next)
             disp(obj.Arrival.Next)
@@ -52,7 +52,9 @@ methods
                 obj.Arrival.Manage(obj);
             end
 
-            %fprintf('persone in coda: %d\n', obj.MyQueue.NumInQueue)
+            fprintf('persone in coda: %d\n', obj.MyQueue.NumInQueue)
+            fprintf('panini nel buffer: %d\n', obj.Buffer.NumInQueue)
+
         end
     end
 
