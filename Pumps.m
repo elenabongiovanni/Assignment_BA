@@ -14,12 +14,14 @@ classdef Pumps < handle
             obj.NumLines = NumLines;
             obj.NumPumps = NumPumps;
             obj.PumpsList = zeros(NumLines, NumPumps);
-            obj.Block = false(1, numLines);
+            obj.NumClients = 0;
+            obj.Block = false(1, NumLines);
+            obj.WaitingTime = WaitingTime();
         end
 
         function Update(obj, Sim)
 
-            client = Sim.ClientQueue(obj.NumClients + 1);
+            client = Sim.ClientQueue.ClientsList{obj.NumClients + 1};
 
             if obj.PumpsList(client.FuelInlet, 1) == 0
                 obj.Add();
@@ -31,12 +33,16 @@ classdef Pumps < handle
                 if obj.PumpsList(client.FuelInlet, 2) == 1
                     obj.PumpsList(client.FuelInlet, 1) = 1;
                     Sim.FuelService.GenerateNext();
+                    client.FuelPump = 1;
+                    client.EndRefill(Sim.FuelService.Next)
                 else
                     obj.PumpsList(client.FuelInlet, 2) = 1;
                     Sim.FuelService.GenerateNext();
+                    client.FuelPump = 2;
+                    client.EndRefill(Sim.FuelService.Next)
                 end
             else
-                obj.WaitingTime.AddJoinTime(end+1) = Sim.Clock;
+                obj.WaitingTime.AddJoinTime(Sim.Clock);
             end
         end
 

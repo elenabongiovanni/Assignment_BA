@@ -14,8 +14,6 @@ classdef Client < handle
     end
 
     methods (Abstract)
-        Update()
-
         CleanState()
     end
 end

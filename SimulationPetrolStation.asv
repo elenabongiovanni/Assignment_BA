@@ -36,7 +36,7 @@ classdef SimulationPetrolStation < handle
             while obj.ClientQueue.Served <= obj.ToServe
                 obj.Clock = min([obj.Arrival.TimesList(1),obj.FuelService.TimesList(1),obj.CashService.TimesList(1)]);
 
-                disp(obj.Arrival.TimesList(1))
+                fprintf('Cliente %d\n', id)
                 disp(obj.FuelService.TimesList(1))
                 disp(obj.CashService.TimesList(1))
 
@@ -54,7 +54,7 @@ classdef SimulationPetrolStation < handle
 
                 if obj.Clock == obj.CashService.TimesList(1)
                     obj.CashService.Manage(obj);
-                    obj.CashService.RemoveTime()
+                    obj.CashService.RemoveTime();
                 end
                 
                 if obj.ClientQueue.NumInQueue > obj.Pumps.NumClients

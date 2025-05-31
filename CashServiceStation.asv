@@ -1,5 +1,9 @@
 classdef CashServiceStation < Event
 
+    properties
+        TimesList = []
+    end
+
     methods
         function Manage(obj, Sim)
             client = Sim.ServiceQueue.AddServed();

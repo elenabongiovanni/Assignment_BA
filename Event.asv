@@ -35,12 +35,11 @@ classdef Event < handle
 
         function Reset(obj)
             obj.Next = inf;
-            obj.AddTime(obj.Next);
+            obj.AddTime<
         end
 
         function AddTime(obj, Time)
             obj.TimesList(end+1) = Time;
-            sort(obj.TimesList);
         end
 
         function RemoveTime(obj)
