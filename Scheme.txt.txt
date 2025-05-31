@@ -1,0 +1,59 @@
+Simulazione Roll
+
+SimulazionRollQueue
+	|
+	|-Queue
+	    |
+	    |-MyQueue
+	    |
+	    |-Buffer
+	
+	|-Event  -ClientArrivalRoll
+                        |
+                        |-Arrival
+	                
+                 -ServiceRoll	     
+	                |
+                        |-Roll
+	
+	|-WaitingTime
+	    |
+	    |-WaitingTime
+
+
+
+Simulazione Benzinaio 
+
+SimulationPetrolStation
+	|
+	|-Queue
+	    |
+	    |-ClientQueue
+	    |
+	    |-ServiceQueue
+	
+	|-Event  -ClientArrivalStation
+                        |
+                        |-Arrival
+
+                 -FuelServiceStation	     
+	                |
+                        |-FuelService
+
+                 -CashServiceStation
+                        |
+                        |-CashService
+
+	|-Pumps
+	    |
+	    |-Pumps
+
+	|-WaitingTime
+	    |
+	    |-WaitingTimeCash
+	    |
+	    |-WaitingTimeExit
+
+
+
+

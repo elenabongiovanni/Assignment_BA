@@ -26,29 +26,33 @@ methods
             obj.Buffer = Queue(6);
             obj.Clock = 0;
             obj.ToServe = ToServe;
-            obj.Arrival = ClientArrivalRoll(Rate1, @(x)  poissrnd(x));
+            obj.Arrival = ClientArrivalRoll(Rate1, @(x)  exprnd(x));
             obj.Roll = ServiceRoll(Rate2, @(x) exprnd(x));
             obj.ResidualDemand = [];
             obj.JoinTime = [];
             obj.WaitingTime = WaitingTime();
    
     end
-    
-    % function ManageToServe(obj)
-    % 
-    % end
+   
 
     function Simulazione(obj)
         while obj.MyQueue.Served <= obj.ToServe
+            disp(obj.MyQueue.Served);
+            disp(obj.Roll.Next)
+            disp(obj.Arrival.Next)
             
             if obj.Roll.Next <= obj.Arrival.Next
+                % disp("panino pronto")
                 obj.Clock = obj.Roll.Next;
                 obj.Roll.Manage(obj);
 
             else
+                %disp("arrivo cliente")
                 obj.Clock = obj.Arrival.Next;
                 obj.Arrival.Manage(obj);
             end
+
+            %fprintf('persone in coda: %d\n', obj.MyQueue.NumInQueue)
         end
     end
 

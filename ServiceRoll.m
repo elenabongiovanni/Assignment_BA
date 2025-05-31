@@ -3,6 +3,9 @@ classdef ServiceRoll < Event
     methods 
         function Manage(obj, Sim)
             roll = Roll(Sim.IdRoll, Sim.Clock);
+            Sim.IdRoll = Sim.IdRoll + 1;
+            fprintf("nuovo roll id %d\n", roll.Id);
+            
             if ~ isempty(Sim.ResidualDemand)  % customer in queue, serve demand
                 Sim.ResidualDemand(1) = Sim.ResidualDemand(1)-1;
                 if Sim.ResidualDemand(1) == 0 % service completed
