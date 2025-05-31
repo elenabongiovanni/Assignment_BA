@@ -12,7 +12,7 @@ classdef Queue < handle
     methods
         % Costruttore
         function obj = Queue(nummax)
-            obj.ClientsList = [];
+            obj.ClientsList = {};
             obj.NumInQueue = [];
             obj.Lost = 0;
             obj.Served = 0;
@@ -26,7 +26,7 @@ classdef Queue < handle
 
         function UpdateQueue(obj, Client)
             if ~ obj.Blocked
-                obj.ClientsList(end) = Client;
+                obj.ClientsList{end+1} = Client;
                 obj.NumInQueue = obj.NumInQueue + 1;
             else
                 obj.Lost = obj.Lost + 1;
@@ -38,9 +38,9 @@ classdef Queue < handle
             
         end
 
-        function served = AddServed(obj, Id)
+        function served = AddServed(obj, id)
             if nargin > 0
-                idx = find([obj.ClientsList.Id] == Id);
+                idx = find(cellfun(@(c) c.Id == id, obj.ClientsList));
                 served = obj.ClientsList(idx);
                 obj.ClientsList(idx) = [];
             else

@@ -12,6 +12,8 @@ classdef SimulationRollQueue < handle
         WaitingTime
         MaxDemand = 3
         Count = 0
+        IdClient = 0
+        IdRoll = 0
         % rate_arrival
         % distribution_arrival
         % rate_service
