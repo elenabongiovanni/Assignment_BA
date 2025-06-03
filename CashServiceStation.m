@@ -2,13 +2,14 @@ classdef CashServiceStation < Event
 
     methods
         function Manage(obj, Sim)
-            client = Sim.ServiceQueue.AddServed();
+            idx = cellfun(@(c) c.EndTime == Sim.FuelService.Next, Sim.ClientQueue.ClientsList);
+            client = Sim.ServiceQueue.AddServed(idx);
 
             if Sim.ServiceQueue.NumInQueue > 0
                 obj.GenerateNext(Sim.Clock)
                 Sim.WaitingTimeCash.Update(Sim.Clock);
-            else
-                obj.Next = inf;
+            % else
+            %     obj.Reset();
             end
 
             if client.FuelPump == 2
@@ -23,7 +24,7 @@ classdef CashServiceStation < Event
                     Sim.Pumps.Remove();
                 end
             else
-                if Sim.PumpsList(client.FuelInlet, 2) == 0
+                if Sim.Pumps.PumpsList(client.FuelInlet, 2) == 0
                     Sim.ClientQueue.AddServed(client.Id);
                     Sim.Pumps.PumpsList(client.FuelInlet, 1) = 0;
                     Sim.Pumps.Remove();

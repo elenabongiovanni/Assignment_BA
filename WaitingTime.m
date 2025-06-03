@@ -11,7 +11,7 @@ classdef WaitingTime < StateVar
         end
 
         function Update(obj, clock)
-            obj.Values(end) = clock - obj.JoinTime; 
+            obj.Values(end+1) = clock - obj.JoinTime; 
             obj.CurrentState = obj.CurrentState + obj.Values(end);
         end
 

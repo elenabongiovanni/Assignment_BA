@@ -11,9 +11,9 @@ classdef FuelServiceStation < Event
                 else
                     Sim.CashService.GenerateNext(Sim.Clock); % ho servito un altro cliente 
                 end
-                if Sim.ClientQueue.NumInQueue == 1
-                    obj.Reset();
-                end
+                % if Sim.ClientQueue.NumInQueue == 1
+                %     obj.Reset();
+                % end
             end
         end
         
