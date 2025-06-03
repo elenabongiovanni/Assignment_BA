@@ -5,7 +5,7 @@ classdef ClientArrivalStation < Event
                     client = Driver(Sim.IdClient, Sim.Clock);
                     Sim.UpdateIdClient();
                     Sim.ClientQueue.UpdateQueue(client); 
-                    obj.GenerateNext();
+                    obj.GenerateNext(Sim.Clock);
             end
         end
         

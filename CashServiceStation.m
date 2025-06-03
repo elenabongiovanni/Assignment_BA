@@ -5,7 +5,7 @@ classdef CashServiceStation < Event
             client = Sim.ServiceQueue.AddServed();
 
             if Sim.ServiceQueue.NumInQueue > 0
-                obj.GenerateNext()
+                obj.GenerateNext(Sim.Clock)
                 Sim.WaitingTimeCash.Update(Sim.Clock);
             else
                 obj.Next = inf;

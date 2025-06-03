@@ -22,14 +22,12 @@ classdef Event < handle
         end
         
         % Genero nuovo evento 
-        function GenerateNext(obj)
+        function GenerateNext(obj, clock)
             if obj.Next == inf
                 obj.RemoveTime();
-                obj.Next = obj.TimesList(end-1) + obj.Distribution(obj.Rate);
-            else
-                obj.Next = obj.Next + obj.Distribution(obj.Rate);
             end
 
+            obj.Next = clock + obj.Distribution(obj.Rate);
             obj.AddTime(obj.Next);
         end
 

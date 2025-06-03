@@ -32,12 +32,12 @@ classdef Pumps < handle
              
                 if obj.PumpsList(client.FuelInlet, 2) == 1
                     obj.PumpsList(client.FuelInlet, 1) = 1;
-                    Sim.FuelService.GenerateNext();
+                    Sim.FuelService.GenerateNext(Sim.Clock);
                     client.FuelPump = 1;
                     client.EndRefill(Sim.FuelService.Next)
                 else
                     obj.PumpsList(client.FuelInlet, 2) = 1;
-                    Sim.FuelService.GenerateNext();
+                    Sim.FuelService.GenerateNext(Sim.Clock);
                     client.FuelPump = 2;
                     client.EndRefill(Sim.FuelService.Next)
                 end
