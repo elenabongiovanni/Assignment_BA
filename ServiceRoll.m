@@ -2,9 +2,9 @@ classdef ServiceRoll < Event
     
     methods 
         function Manage(obj, Sim)
-            roll = Roll(Sim.IdRoll, Sim.Clock);
-            Sim.IdRoll = Sim.IdRoll + 1;
-            fprintf("nuovo roll id %d\n", roll.Id);
+            roll = Roll(Sim.Clock); % Sim.IdRoll
+            % Sim.IdRoll = Sim.IdRoll + 1;
+            % fprintf("nuovo roll id %d\n", roll.Id);
             
             if ~ isempty(Sim.ResidualDemand)  % customer in queue, serve demand
                 Sim.ResidualDemand(1) = Sim.ResidualDemand(1)-1;
@@ -23,7 +23,7 @@ classdef ServiceRoll < Event
             if Sim.Buffer.Blocked
                 obj.Next = inf;
             else
-                obj.GenerateNext();
+                obj.GenerateNext(Sim.Clock);
             end
 
         end

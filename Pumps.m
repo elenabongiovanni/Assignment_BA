@@ -6,7 +6,6 @@ classdef Pumps < handle
         PumpsList % pompe
         NumClients
         Block % 2 variabili booleane -> 1 per due pompe, 2 per le altre due
-        WaitingTime
     end
 
     methods
@@ -16,7 +15,6 @@ classdef Pumps < handle
             obj.PumpsList = zeros(NumLines, NumPumps);
             obj.NumClients = 0;
             obj.Block = false(1, NumLines);
-            obj.WaitingTime = WaitingTime();
         end
 
         function Update(obj, Sim)
@@ -26,8 +24,9 @@ classdef Pumps < handle
             if obj.PumpsList(client.FuelInlet, 1) == 0
                 obj.Add();
                 
-                if ~ isempty(obj.WaitingTime.JoinTime)
-                    obj.WaitingTime.Update(Sim.Clock);
+                if ~ isempty(Sim.WaitingTimePumps.JoinTime)
+                    Sim.WaitingTimePumps.Update(Sim.Clock);
+                    Sim.AvgLengthPumps.Update(Sim.ClientQueue.NumInQueue - obj.NumClients, Sim.Clock);
                 end
              
                 if obj.PumpsList(client.FuelInlet, 2) == 1
@@ -42,7 +41,8 @@ classdef Pumps < handle
                     client.EndRefill(Sim.FuelService.Next)
                 end
             else
-                obj.WaitingTime.AddJoinTime(Sim.Clock);
+                Sim.WaitingTimePumps.AddJoinTime(Sim.Clock);
+                Sim.AvgLengthPumps.Update(Sim.ClientQueue.NumInQueue - obj.NumClients, Sim.Clock);
             end
         end
 

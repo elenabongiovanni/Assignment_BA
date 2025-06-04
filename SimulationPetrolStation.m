@@ -6,13 +6,17 @@ classdef SimulationPetrolStation < handle
         ServiceQueue % coda cassa
         Pumps
         Clock 
-        BlockClients
+        % BlockClients
         ToServe % clienti da servire 
         Arrival % arrivi clienti
         FuelService % servizio pompe benzina
         CashService % servizio cassa
+        WaitingTimePumps
         WaitingTimeCash
         WaitingTimeExit
+        AvgLengthPumps
+        AvgLengthCash
+        AvgLengthExit
     end
 
     methods 
@@ -21,14 +25,18 @@ classdef SimulationPetrolStation < handle
             obj.ClientQueue = Queue(MaxPlaces);
             obj.ServiceQueue = Queue();
             obj.Clock = 0;
-            obj.BlockClients = false(1, 2);
+            % obj.BlockClients = false(1, 2);
             obj.ToServe = ToServe;
             obj.Arrival = ClientArrivalStation(Rate1, @(x)  poissrnd(x));
             obj.FuelService = FuelServiceStation(Rate2, @(x) poissrnd(x),inf);
             obj.CashService = CashServiceStation(Rate3, @(x) poissrnd(x),inf);
+            obj.WaitingTimePumps = WaitingTime();
             obj.WaitingTimeCash = WaitingTime();
             obj.WaitingTimeExit = WaitingTime();
             obj.Pumps = Pumps(NumLines, NumPumps);
+            obj.AvgLengthPumps = AvgLength();
+            obj.AvgLengthCash = AvgLength();
+            obj.AvgLengthExit = AvgLength();
         end
 
 
@@ -76,6 +84,16 @@ classdef SimulationPetrolStation < handle
                 end
                 
             end
+
+            obj.WaitingTimePumps.EvaluateFinalState()
+            obj.WaitingTimeCash.EvaluateFinalState()
+            obj.WaitingTimeExit.EvaluateFinalState()
+
+            obj.AvgLengthPumps.EvaluateFinalState()
+            obj.AvgLengthCash.EvaluateFinalState()
+            obj.AvgLengthExit.EvaluateFinalState()
+
+            obj.ClientQueue.Lost
         end
 
         function UpdateIdClient(obj)

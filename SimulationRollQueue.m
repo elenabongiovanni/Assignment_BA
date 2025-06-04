@@ -31,7 +31,6 @@ methods
             obj.ResidualDemand = [];
             obj.JoinTime = [];
             obj.WaitingTime = WaitingTime();
-   
     end
    
 

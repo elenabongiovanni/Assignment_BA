@@ -4,14 +4,16 @@ classdef Driver < Client
         FuelInlet
         FuelPump
         EndTime
+        Cash
     end
 
     methods 
-        function obj = Driver(Id, EnterTime)
-            obj@Client(Id, EnterTime);
+        function obj = Driver(EnterTime) % id
+            obj@Client(EnterTime); % id
             obj.FuelInlet = randi([1,2]);
             obj.FuelPump = NaN;
             obj.EndTime = inf;
+            obj.Cash = false;
         end
 
         function CleanState(obj)
