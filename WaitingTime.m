@@ -12,9 +12,14 @@ classdef WaitingTime < StateVar
 
         function Update(obj, clock, client)
             obj.Times(end+1) = clock;
-
+            
             if nargin > 2
-                obj.Values(end+1) = clock - client.EnterTime; 
+                if client.EnterBlock ==0
+                    obj.Values(end+1) = clock - client.EnterTime; 
+                else
+                    obj.Values(end+1) = clock - client.EnterBlock; 
+                end
+                            
             else
                 obj.Values(end+1) = clock - obj.JoinTime(1); 
                 obj.JoinTime(1) = [];

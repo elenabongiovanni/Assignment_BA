@@ -20,11 +20,14 @@ classdef CashServiceStation < Event
                 Sim.Pumps.Remove();
                 if Sim.Pumps.Block(client.FuelInlet)
                     idx_blocked = cellfun(@(c) c.FuelInlet == client.FuelInlet && c.FuelPump == 1, Sim.ClientQueue.ClientsList);
+                    clientblocked = Sim.ClientQueue.ClientsList{idx_blocked};
                     Sim.WaitingTimeExit.Update(Sim.Clock);
-                    Sim.Pumps.Block(client.FuelInlet) = false;
+                    Sim.WaitingTimeBlocked.Update(Sim.Clock,clientblocked);
+                    Sim.Pumps.Block(client.FuelInlet) = false;                    
                     Sim.ClientQueue.AddServed(idx_blocked);
                     Sim.Pumps.PumpsList(client.FuelInlet, 1) = 0;
                     Sim.Pumps.Remove();
+                    
                 end
             else
                 if Sim.Pumps.PumpsList(client.FuelInlet, 2) == 0
@@ -33,7 +36,9 @@ classdef CashServiceStation < Event
                     Sim.Pumps.Remove();
                 else
                     % Sim.BlockClients(client.FuelInlet) = client.Id;
+                    client.Blocked(Sim.Clock);
                     Sim.Pumps.Block(client.FuelInlet) = true;
+                    %Sim.WaitingTimeBlocked.AddJoinTime(Sim.Clock);               
                     Sim.WaitingTimeExit.AddJoinTime(Sim.Clock);
                 end
             end

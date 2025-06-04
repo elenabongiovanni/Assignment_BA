@@ -29,6 +29,9 @@ classdef Event < handle
             if obj.TimesList(1) == inf
                 obj.RemoveTime();
             end
+            obj.TimesList = sort(obj.TimesList);
+            
+            
         end
 
         % function Reset(obj)
@@ -38,7 +41,7 @@ classdef Event < handle
 
         function AddTime(obj, Time)
             obj.TimesList(end+1) = Time;
-            sort(obj.TimesList);
+            
         end
 
         function RemoveTime(obj)

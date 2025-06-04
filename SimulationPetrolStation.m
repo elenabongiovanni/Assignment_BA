@@ -14,6 +14,7 @@ classdef SimulationPetrolStation < handle
         WaitingTimePumps
         WaitingTimeCash
         WaitingTimeExit
+        WaitingTimeBlocked
         AvgLengthPumps
         AvgLengthCash
         AvgLengthExit
@@ -27,12 +28,13 @@ classdef SimulationPetrolStation < handle
             obj.Clock = 0;
             % obj.BlockClients = false(1, 2);
             obj.ToServe = ToServe;
-            obj.Arrival = ClientArrivalStation(Rate1, @(x)  poissrnd(x));
-            obj.FuelService = FuelServiceStation(Rate2, @(x) poissrnd(x),inf);
+            obj.Arrival = ClientArrivalStation(Rate1, @(x) poissrnd(x));
+            obj.FuelService = FuelServiceStation(Rate2, @(x) randi([0,x]),inf);
             obj.CashService = CashServiceStation(Rate3, @(x) poissrnd(x),inf);
             obj.WaitingTimePumps = WaitingTime();
             obj.WaitingTimeCash = WaitingTime();
             obj.WaitingTimeExit = WaitingTime();
+            obj.WaitingTimeBlocked = WaitingTime();
             obj.Pumps = Pumps(NumLines, NumPumps);
             obj.AvgLengthPumps = AvgLength();
             obj.AvgLengthCash = AvgLength();
@@ -42,7 +44,7 @@ classdef SimulationPetrolStation < handle
 
         function Simulazione(obj)
             while obj.ClientQueue.Served <= obj.ToServe
-                obj.Clock = min([obj.Arrival.TimesList(1),obj.FuelService.TimesList(1),obj.CashService.TimesList(1)]);
+                obj.Clock = min([obj.Arrival.TimesList(1),min(obj.FuelService.TimesList),obj.CashService.TimesList(1)]);
 
                 disp("arrivo: ")
 
@@ -69,7 +71,7 @@ classdef SimulationPetrolStation < handle
                     obj.CashService.RemoveTime()
                 end
 
-                if obj.Clock == obj.FuelService.TimesList(1)
+                if obj.Clock == min(obj.FuelService.TimesList)
                     obj.FuelService.Manage(obj);
                     obj.FuelService.RemoveTime();
                 end
@@ -88,6 +90,7 @@ classdef SimulationPetrolStation < handle
             obj.WaitingTimePumps.EvaluateFinalState()
             obj.WaitingTimeCash.EvaluateFinalState()
             obj.WaitingTimeExit.EvaluateFinalState()
+            obj.WaitingTimeBlocked.EvaluateFinalState()
 
             obj.AvgLengthPumps.EvaluateFinalState()
             obj.AvgLengthCash.EvaluateFinalState()
