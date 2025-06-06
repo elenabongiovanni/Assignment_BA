@@ -11,6 +11,7 @@ classdef SimulationPetrolStation < handle
         Arrival % arrivi clienti
         FuelService % servizio pompe benzina
         CashService % servizio cassa
+        CountBlocked 
         WaitingTimePumps
         WaitingTimeCash
         WaitingTimeExit
@@ -29,8 +30,9 @@ classdef SimulationPetrolStation < handle
             % obj.BlockClients = false(1, 2);
             obj.ToServe = ToServe;
             obj.Arrival = ClientArrivalStation(Rate1, @(x) poissrnd(x));
-            obj.FuelService = FuelServiceStation(Rate2, @(x) randi([0,x]),inf);
-            obj.CashService = CashServiceStation(Rate3, @(x) poissrnd(x),inf);
+            obj.FuelService = FuelServiceStation(Rate2, @(x,y) unifrnd(x,y),inf);
+            obj.CashService = CashServiceStation(Rate3, @(x,y) unifrnd(x,y),inf);
+            obj.CountBlocked = 0;
             obj.WaitingTimePumps = WaitingTime();
             obj.WaitingTimeCash = WaitingTime();
             obj.WaitingTimeExit = WaitingTime();
@@ -87,16 +89,17 @@ classdef SimulationPetrolStation < handle
                 
             end
 
-            obj.WaitingTimePumps.EvaluateFinalState()
-            obj.WaitingTimeCash.EvaluateFinalState()
-            obj.WaitingTimeExit.EvaluateFinalState()
-            obj.WaitingTimeBlocked.EvaluateFinalState()
-
-            obj.AvgLengthPumps.EvaluateFinalState()
-            obj.AvgLengthCash.EvaluateFinalState()
-            obj.AvgLengthExit.EvaluateFinalState()
-
-            obj.ClientQueue.Lost
+            fprintf("Tempo medio attesa coda: %d\n",obj.WaitingTimePumps.EvaluateFinalState())
+            fprintf("Tempo medio attesa cassa: %d\n",obj.WaitingTimeCash.EvaluateFinalState())
+            fprintf("Tempo medio attesa totale: %d\n",obj.WaitingTimeExit.EvaluateFinalState())
+            fprintf("Tempo medio blocco uscita: %d\n",obj.WaitingTimeBlocked.EvaluateFinalState())
+            
+            fprintf("\nLunghezza media coda: %d\n",obj.AvgLengthPumps.EvaluateFinalState())
+            fprintf("Lunghezza media coda cassa: %d\n",obj.AvgLengthCash.EvaluateFinalState())
+            fprintf("Lunghezza media persone nel sistema: %d\n",obj.AvgLengthExit.EvaluateFinalState())
+            
+            fprintf("\nNumero clienti persi: %d\n",obj.ClientQueue.Lost)
+            fprintf("Numero clienti bloccati: %d\n", obj.CountBlocked) 
         end
 
         function UpdateIdClient(obj)

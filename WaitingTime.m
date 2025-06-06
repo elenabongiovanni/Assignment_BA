@@ -17,7 +17,8 @@ classdef WaitingTime < StateVar
                 if client.EnterBlock ==0
                     obj.Values(end+1) = clock - client.EnterTime; 
                 else
-                    obj.Values(end+1) = clock - client.EnterBlock; 
+                    obj.Values(end+1) = clock - client.EnterBlock;
+                    client.EnterBlock = 0;
                 end
                             
             else

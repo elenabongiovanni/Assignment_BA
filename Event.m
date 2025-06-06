@@ -14,7 +14,11 @@ classdef Event < handle
             if nargin > 2
                 obj.Next = Next;
             else
-                obj.Next = Distribution(Rate);
+                if length(Rate) == 2
+                    obj.Next = Distribution(Rate(1),Rate(2));
+                else
+                    obj.Next = Distribution(Rate);
+                end
             end
             
             obj.Distribution = Distribution;
@@ -23,7 +27,12 @@ classdef Event < handle
         
         % Genero nuovo evento 
         function GenerateNext(obj, clock)
-            obj.Next = clock + obj.Distribution(obj.Rate);
+            if length(obj.Rate) == 2
+                    obj.Next = clock + obj.Distribution(obj.Rate(1),obj.Rate(2));
+            else
+                dist = obj.Distribution(obj.Rate)
+                obj.Next = clock + dist;
+            end
             obj.AddTime(obj.Next);
 
             if obj.TimesList(1) == inf
