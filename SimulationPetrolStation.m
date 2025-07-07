@@ -67,18 +67,34 @@ classdef SimulationPetrolStation < handle
                 
             end
 
-            fprintf("Tempo medio attesa coda: %d\n",obj.WaitingTimePumps.EvaluateFinalState())
-            fprintf("Tempo medio attesa cassa: %d\n",obj.WaitingTimeCash.EvaluateFinalState())
-            fprintf("Tempo medio attesa totale: %d\n",obj.WaitingTimeExit.EvaluateFinalState())
-            fprintf("Tempo medio blocco uscita: %d\n",obj.WaitingTimeBlocked.EvaluateFinalState())
-            
-            fprintf("\nLunghezza media coda: %d\n",obj.AvgLengthPumps.EvaluateFinalState())
-            fprintf("Lunghezza media coda cassa: %d\n",obj.AvgLengthCash.EvaluateFinalState())
-            fprintf("Lunghezza media persone nel sistema: %d\n",obj.AvgLengthExit.EvaluateFinalState())
-            
-            fprintf("\nNumero clienti persi: %d\n",obj.ClientQueue.Lost)
-            fprintf("Numero clienti bloccati: %d\n", obj.CountBlocked) 
+            obj.WriteResults('results.txt');
         end
+
+        function WriteResults(obj, filename)
+            fid = fopen(filename, 'w');
+        
+            fprintf(fid, "==================== RISULTATI SIMULAZIONE ====================\n\n");
+            fprintf(fid, ">>> TEMPI DI ATTESA (in unità di tempo):\n");
+            fprintf(fid, " - Attesa media alla pompa      : %.2f\n", obj.WaitingTimePumps.EvaluateFinalState());
+            fprintf(fid, " - Attesa media alla cassa      : %.2f\n", obj.WaitingTimeCash.EvaluateFinalState());
+            fprintf(fid, " - Attesa media totale          : %.2f\n", obj.WaitingTimeExit.EvaluateFinalState());
+            fprintf(fid, " - Blocco medio all'uscita      : %.2f\n", obj.WaitingTimeBlocked.EvaluateFinalState());
+        
+            fprintf(fid, "\n>>> LUNGHEZZE MEDIE DELLE CODE:\n");
+            fprintf(fid, " - Coda media alle pompe         : %.2f\n", obj.AvgLengthPumps.EvaluateFinalState());
+            fprintf(fid, " - Coda media alla cassa         : %.2f\n", obj.AvgLengthCash.EvaluateFinalState());
+            fprintf(fid, " - Persone medie nel sistema     : %.2f\n", obj.AvgLengthExit.EvaluateFinalState());
+        
+            fprintf(fid, "\n>>> STATISTICHE CLIENTI:\n");
+            fprintf(fid, " - Clienti totali da servire     : %d\n", obj.ToServe);
+            fprintf(fid, " - Clienti persi (posti finiti)  : %d\n", obj.ClientQueue.Lost);
+            fprintf(fid, " - Clienti bloccati in uscita    : %d\n", obj.CountBlocked);
+        
+            fprintf(fid, "\n===============================================================\n");
+        
+            fclose(fid);
+        end
+
 
     end
 end

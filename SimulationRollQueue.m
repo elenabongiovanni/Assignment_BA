@@ -35,9 +35,6 @@ methods
                 obj.Clock = obj.Arrival.Next;
                 obj.Arrival.Manage(obj);
             end
-
-            fprintf('persone in coda: %d\n', obj.MyQueue.NumInQueue)
-            fprintf('panini nel buffer: %d\n', obj.Buffer.NumInQueue)
         end
     end
 

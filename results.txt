@@ -1,0 +1,19 @@
+==================== RISULTATI SIMULAZIONE ====================
+
+>>> TEMPI DI ATTESA (in unità di tempo):
+ - Attesa media alla pompa      : 1.27
+ - Attesa media alla cassa      : 0.01
+ - Attesa media totale          : 3.04
+ - Blocco medio all'uscita      : 0.02
+
+>>> LUNGHEZZE MEDIE DELLE CODE:
+ - Coda media alle pompe         : 1.27
+ - Coda media alla cassa         : 0.59
+ - Persone medie nel sistema     : 3.05
+
+>>> STATISTICHE CLIENTI:
+ - Clienti totali da servire     : 1000
+ - Clienti persi (posti finiti)  : 2
+ - Clienti bloccati in uscita    : 36
+
+===============================================================
