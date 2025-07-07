@@ -8,8 +8,8 @@ classdef Driver < Client
     end
 
     methods 
-        function obj = Driver(EnterTime) % id
-            obj@Client(EnterTime); % id
+        function obj = Driver(EnterTime) 
+            obj@Client(EnterTime); 
             obj.FuelInlet = randi([1,2]);
             obj.FuelPump = NaN;
             obj.EndTime = inf;
@@ -17,7 +17,6 @@ classdef Driver < Client
         end
 
         function CleanState(obj)
-            obj.Id = NaN;
             obj.EnterTime = NaN;
             obj.FuelInlet = NaN;
             obj.FuelPump = NaN;

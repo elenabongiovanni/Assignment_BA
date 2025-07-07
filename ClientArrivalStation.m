@@ -2,11 +2,12 @@ classdef ClientArrivalStation < Event
 
         methods
             function Manage(obj, Sim)
-                    client = Driver(Sim.Clock); % Sim.IdClient
-                    % Sim.UpdateIdClient();
-                    Sim.ClientQueue.UpdateQueue(client); 
+                    client = Driver(Sim.Clock);
+                    Sim.ClientQueue.Update(client, Sim.Pumps.NumClients); 
                     obj.GenerateNext(Sim.Clock);
+                    
                     Sim.AvgLengthExit.Update(Sim.ClientQueue.NumInQueue, Sim.Clock);
+                    Sim.AvgLengthPumps.Update(Sim.ClientQueue.NumInQueue - Sim.Pumps.NumClients, Sim.Clock);
             end
         end
         

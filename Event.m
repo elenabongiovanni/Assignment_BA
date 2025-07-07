@@ -27,30 +27,25 @@ classdef Event < handle
         
         % Genero nuovo evento 
         function GenerateNext(obj, clock)
+
             if length(obj.Rate) == 2
-                    obj.Next = clock + obj.Distribution(obj.Rate(1),obj.Rate(2));
+                obj.Next = clock + obj.Distribution(obj.Rate(1),obj.Rate(2));
             else
-                dist = obj.Distribution(obj.Rate)
-                obj.Next = clock + dist;
+                obj.Next = clock + obj.Distribution(obj.Rate);
             end
+
             obj.AddTime(obj.Next);
 
             if obj.TimesList(1) == inf
                 obj.RemoveTime();
             end
+
             obj.TimesList = sort(obj.TimesList);
-            
             
         end
 
-        % function Reset(obj)
-        %     obj.Next = inf;
-        %     obj.AddTime(obj.Next);
-        % end
-
         function AddTime(obj, Time)
             obj.TimesList(end+1) = Time;
-            
         end
 
         function RemoveTime(obj)
@@ -60,7 +55,6 @@ classdef Event < handle
                 obj.AddTime(inf);
             end
         end
-
     end
 
     methods (Abstract)

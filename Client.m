@@ -1,15 +1,12 @@
 classdef Client < handle
 
     properties
-        % Id
         EnterTime
         EnterBlock
-        % ExitTime = inf
     end
 
     methods
-        function obj = Client(EnterTime) % id
-            % obj.Id = Id;
+        function obj = Client(EnterTime) 
             obj.EnterBlock = 0;
             obj.EnterTime = EnterTime;
         end
@@ -17,7 +14,6 @@ classdef Client < handle
         function Blocked(obj,clock)
             obj.EnterBlock = clock;
         end
-
     end
 
     methods (Abstract)

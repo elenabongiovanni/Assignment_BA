@@ -6,18 +6,15 @@ classdef FuelServiceStation < Event
                 Client = Sim.ClientQueue.ClientsList{idx};
                 
                 Client.Cash = true;
-                Sim.ServiceQueue.UpdateQueue(Client);
+                Sim.ServiceQueue.Update(Client);
+
                 Sim.AvgLengthCash.Update(Sim.ServiceQueue.NumInQueue, Sim.Clock);
 
                 if Sim.ServiceQueue.NumInQueue > 1
                     Sim.WaitingTimeCash.AddJoinTime(obj.Next);
                 else
-                    Sim.CashService.GenerateNext(Sim.Clock); % ho servito un altro cliente 
+                    Sim.CashService.GenerateNext(Sim.Clock); 
                 end
-                % if Sim.ClientQueue.NumInQueue == 1
-                %     obj.Reset();
-                % end
             end
         end
-        
 end

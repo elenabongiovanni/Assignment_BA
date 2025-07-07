@@ -1,4 +1,5 @@
 classdef AvgLength < StateVar
+    
     properties
         Events
     end

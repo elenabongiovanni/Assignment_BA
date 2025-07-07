@@ -24,38 +24,44 @@ classdef Queue < handle
         
         % Aggiungo cliente alla coda 
 
-        function UpdateQueue(obj, Client)
+        function Update(obj, Client, WIP)
+
+            if nargin < 3
+                WIP = 0;
+            end
 
             if ~ obj.Blocked
-                obj.ClientsList{end+1} = Client;
+
+                if nargin > 1
+                    obj.ClientsList{end+1} = Client;
+                end
+                
                 obj.NumInQueue = obj.NumInQueue + 1;
             else
                 obj.Lost = obj.Lost + 1;
             end
                 
-            if obj.NumInQueue == obj.NumMax
+            if obj.NumInQueue - WIP == obj.NumMax
                 obj.Blocked = true;
-
             end
             
         end
 
         function served = AddServed(obj, idx) % id
-            if obj.NumInQueue > 0
+            if ~ isempty(obj.ClientsList)
                 if nargin > 1
-                    % idx = find(cellfun(@(c) c.Id == id, obj.ClientsList));
                     served = obj.ClientsList{idx};
                     obj.ClientsList(idx) = [];
                 else                    
                     served = obj.ClientsList{1};
                     obj.ClientsList(1) = [];                      
                 end
-                obj.NumInQueue = obj.NumInQueue - 1;
             end
-                        
-            obj.Served = obj.Served + 1;
 
-            disp(obj.Served)
+            if obj.NumInQueue > 0
+                obj.NumInQueue = obj.NumInQueue - 1;
+                obj.Served = obj.Served + 1;
+            end      
 
             if obj.Blocked
                 obj.Blocked = false;
