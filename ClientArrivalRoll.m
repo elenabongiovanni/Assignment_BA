@@ -6,13 +6,12 @@ classdef ClientArrivalRoll < Event
 
             if ~ isempty(Sim.ResidualDemand) % join queue
                 Sim.ResidualDemand(end+1) = demand;
-                Sim.WaitingTime.AddJoinTime(obj.Next);
-                Sim.MyQueue.Update();
+                Sim.WaitingTimeQueue.AddJoinTime(obj.Next);
+                Sim.ClientQueue.Update();
             else
                 if Sim.Buffer.NumInQueue >= demand
                     Sim.Buffer.NumInQueue = Sim.Buffer.NumInQueue - demand;
-                    Sim.MyQueue.AddServed();
-                    Sim.Count = Sim.Count + 1;
+                    Sim.ClientQueue.AddServed();
                 else
                     if Sim.Buffer.NumInQueue ~= 0
                         demand = demand - Sim.Buffer.NumInQueue;
@@ -20,8 +19,8 @@ classdef ClientArrivalRoll < Event
                     end
                     
                     Sim.ResidualDemand(1) = demand;
-                    Sim.WaitingTime.AddJoinTime(obj.Next);
-                    Sim.MyQueue.Update();
+                    Sim.WaitingTimeQueue.AddJoinTime(obj.Next);
+                    Sim.ClientQueue.Update();
                 end
 
                 if Sim.Buffer.Blocked
@@ -32,6 +31,7 @@ classdef ClientArrivalRoll < Event
             end
 
         obj.GenerateNext(Sim.Clock);
+        Sim.AvgLengthQueue.Update(Sim.ClientQueue.NumInQueue, Sim.Clock);
 
         end
 

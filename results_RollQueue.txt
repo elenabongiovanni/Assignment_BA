@@ -1,0 +1,12 @@
+==================== RISULTATI SIMULAZIONE ====================
+
+>>> TEMPI DI ATTESA:
+ - Attesa media in coda                   : 2.42
+
+>>> LUNGHEZZE MEDIE DELLE CODE:
+ - Numero medio di persone in coda        : 2.55
+
+>>> STATISTICHE CLIENTI:
+ - Clienti totali da servire              : 100
+
+===============================================================

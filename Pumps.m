@@ -23,7 +23,7 @@ classdef Pumps < handle
             if obj.PumpsList(client.FuelInlet, 1) == 0
 
                 obj.Add();
-                Sim.WaitingTimePumps.Update(Sim.Clock, client);
+                Sim.WaitingTimeQueue.Update(Sim.Clock, client);
              
                 if obj.PumpsList(client.FuelInlet, 2) == 1
                     obj.PumpsList(client.FuelInlet, 1) = 1;
@@ -40,7 +40,7 @@ classdef Pumps < handle
                 end
             end
             
-            Sim.AvgLengthPumps.Update(Sim.ClientQueue.NumInQueue - obj.NumClients, Sim.Clock);
+            Sim.AvgLengthQueue.Update(Sim.ClientQueue.NumInQueue - obj.NumClients, Sim.Clock);
         end
 
         function Add(obj)

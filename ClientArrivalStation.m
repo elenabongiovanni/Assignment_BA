@@ -7,7 +7,7 @@ classdef ClientArrivalStation < Event
                     obj.GenerateNext(Sim.Clock);
                     
                     Sim.AvgLengthExit.Update(Sim.ClientQueue.NumInQueue, Sim.Clock);
-                    Sim.AvgLengthPumps.Update(Sim.ClientQueue.NumInQueue - Sim.Pumps.NumClients, Sim.Clock);
+                    Sim.AvgLengthQueue.Update(Sim.ClientQueue.NumInQueue - Sim.Pumps.NumClients, Sim.Clock);
             end
         end
         

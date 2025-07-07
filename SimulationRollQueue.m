@@ -1,32 +1,24 @@
-classdef SimulationRollQueue < handle 
+classdef SimulationRollQueue < Simulation 
 
     properties 
-        MyQueue
         Buffer
-        Clock
-        ToServe
         Arrival
         Roll
         ResidualDemand
-        WaitingTime
         MaxDemand = 3
-        Count = 0
     end
 
 methods
-    function obj = SimulationRollQueue(ToServe,Rate1,Rate2)
-            obj.MyQueue = Queue();
-            obj.Buffer = Queue(6);
-            obj.Clock = 0;
-            obj.ToServe = ToServe;
-            obj.Arrival = ClientArrivalRoll(Rate1, @(x)  exprnd(x));
-            obj.Roll = ServiceRoll(Rate2, @(x) exprnd(x));
-            obj.ResidualDemand = [];
-            obj.WaitingTime = WaitingTime();
+    function obj = SimulationRollQueue(ToServe, Rate1, Rate2)
+        obj@Simulation(ToServe);
+        obj.Buffer = Queue(6);
+        obj.Arrival = ClientArrivalRoll(Rate1, @(x)  exprnd(x));
+        obj.Roll = ServiceRoll(Rate2, @(x) exprnd(x));
+        obj.ResidualDemand = [];
     end
    
-    function Simulazione(obj)
-        while obj.MyQueue.Served < obj.ToServe
+    function StartSimulation(obj)
+        while obj.ClientQueue.Served < obj.ToServe
             
             if obj.Roll.Next <= obj.Arrival.Next
                 obj.Clock = obj.Roll.Next;
@@ -36,6 +28,26 @@ methods
                 obj.Arrival.Manage(obj);
             end
         end
+
+        obj.WriteResults('results_RollQueue.txt');
+    end
+
+    function WriteResults(obj, filename)
+        fid = fopen(filename, 'w');
+        
+            fprintf(fid, "==================== RISULTATI SIMULAZIONE ====================\n\n");
+            fprintf(fid, ">>> TEMPI DI ATTESA:\n");
+            fprintf(fid, " - Attesa media in coda                   : %.2f\n", obj.WaitingTimeQueue.EvaluateFinalState());
+        
+            fprintf(fid, "\n>>> LUNGHEZZE MEDIE DELLE CODE:\n");
+            fprintf(fid, " - Numero medio di persone in coda        : %.2f\n", obj.AvgLengthQueue.EvaluateFinalState());
+        
+            fprintf(fid, "\n>>> STATISTICHE CLIENTI:\n");
+            fprintf(fid, " - Clienti totali da servire              : %d\n", obj.ToServe);
+        
+            fprintf(fid, "\n===============================================================\n");
+        
+            fclose(fid);
     end
 
 end

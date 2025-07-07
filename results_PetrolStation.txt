@@ -1,6 +1,6 @@
 ==================== RISULTATI SIMULAZIONE ====================
 
->>> TEMPI DI ATTESA (in unità di tempo):
+>>> TEMPI DI ATTESA:
  - Attesa media alla pompa      : 1.27
  - Attesa media alla cassa      : 0.01
  - Attesa media totale          : 3.04
