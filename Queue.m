@@ -23,7 +23,6 @@ classdef Queue < handle
         end
         
         % Aggiungo cliente alla coda 
-
         function Update(obj, Client, WIP)
 
             if nargin < 3
