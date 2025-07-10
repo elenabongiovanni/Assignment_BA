@@ -1,0 +1,69 @@
+SimulazionRollQueue
+	|
+	|-Queue
+	     |
+	     |-ClientQueue
+	     |
+	     |-Buffer
+	
+	|-Event		-ClientArrivalRoll
+				|
+				|-Arrival
+	                
+	                       -ServiceRoll	     
+				|
+				|-Roll
+	
+	|-StateVar	-WaitingTime
+	                      	|
+	                      	|-WaitingTimeQueue
+
+			-AvgLength
+				|
+				|-AvgLengthQueue
+
+
+
+
+SimulationPetrolStation
+	|
+	|-Queue
+	     |
+	     |-ClientQueue
+	     |
+	     |-ServiceQueue
+	
+	|-Event		-ClientArrivalStation
+				|
+				|-Arrival
+
+			-FuelServiceStation	     
+				|
+				|-FuelService
+
+			-CashServiceStation
+				|
+				|-CashService
+
+	|-Pumps
+	     |
+	     |-Pumps
+
+	|-StateVar	-WaitingTime
+				|
+				|-WaitingTimeQueue
+				|
+				|-WaitingTimeCash
+				|
+				|-WaitingTimeExit
+				|
+				|-WaitingTimeBlocked
+
+
+			-AvgLength
+				|
+				|-AvgLengthQueue
+				|
+				|-AvgLengthCash
+				|
+				|-AvgLengthExit
