@@ -4,7 +4,7 @@ classdef ClientArrivalRoll < Event
         function Manage(obj, Sim)
             demand = unidrnd(Sim.MaxDemand);
 
-            if ~ isempty(Sim.ResidualDemand) % join queue
+            if ~ isempty(Sim.ResidualDemand) % si aggiunge alla coda
                 Sim.ResidualDemand(end+1) = demand;
                 Sim.WaitingTimeQueue.AddJoinTime(obj.Next);
                 Sim.ClientQueue.Update();

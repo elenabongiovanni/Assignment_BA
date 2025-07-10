@@ -2,19 +2,18 @@ classdef ServiceRoll < Event
     
     methods 
         function Manage(obj, Sim)
-            %roll = Roll(Sim.Clock); 
             
-            if ~ isempty(Sim.ResidualDemand)  % customer in queue, serve demand
+            if ~ isempty(Sim.ResidualDemand)  % ho clienti in coda, servo il primo
                 Sim.ResidualDemand(1) = Sim.ResidualDemand(1)-1;
 
-                if Sim.ResidualDemand(1) == 0 % service completed
+                if Sim.ResidualDemand(1) == 0 % domanda tutta soddifatta
                     Sim.WaitingTimeQueue.Update(obj.Next);
                     Sim.ClientQueue.AddServed(); % ho servito un altro cliente 
                 
                     % dequeue
                     Sim.ResidualDemand(1) = [];
                 end
-            else % no customer, increase buffer count
+            else % non ci sono clienti, aumento il buffer
                 Sim.Buffer.Update();
             end
             
